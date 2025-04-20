@@ -1,4 +1,4 @@
-import { fileURLToPath, URL } from 'node:url'
+import path from 'path'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -17,22 +17,53 @@ export default defineConfig({
     }),
     vueDevTools()
   ],
-  assetsInclude: ['**/assets/*.svg'],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '@zzz': fileURLToPath(new URL('./ZZZ/src', import.meta.url))
-    }
+  server: {
+    port: 8080
   },
   build: {
+    minify: true,
+    sourcemap: false,
     // rest of build configuration
     rollupOptions: {
       input: {
         app: './index.html',
+        portfolio: './src/main.js',
         'project-zzz': './ZZZ/src/main.ts'
-      }
+      },
+      external: [
+        // /node_modules/
+      ]
     }
   },
+  resolve: {
+    alias: [
+      {
+        find: /ZZZ/,
+        replacement: '/ZZZ'
+      },
+      {
+        find: /^@\//,
+        replacement: '@/',
+        async customResolver(source, importer) {
+          let resolvedPath = ''
+          const isAdditionalData = [
+            '@/assets/styles/mixins.scss',
+            '@/assets/styles/colors.scss',
+            '@/assets/styles/variables.scss'
+          ].includes(source)
+          /** Modify Alias based on Nested Module */
+          if (importer?.includes('/ZZZ') && !isAdditionalData) {
+            resolvedPath = path.resolve(source.replace('@/', './ZZZ/src/'))
+          } else resolvedPath = path.resolve(source.replace('@/', './src/'))
+          /** Return using Vite/RollupOptions resolve handler
+           * https://rollupjs.org/plugin-development/#this-resolve
+           */
+          return (await this.resolve(resolvedPath))?.id
+        }
+      }
+    ]
+  },
+  assetsInclude: ['**/assets/**/*.[svg|webp]'],
   css: {
     preprocessorOptions: {
       scss: {
