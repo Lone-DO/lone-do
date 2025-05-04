@@ -38,7 +38,7 @@ export default defineConfig({
   resolve: {
     alias: [
       {
-        find: /ZZZ/,
+        find: /^ZZZ/,
         replacement: '/ZZZ'
       },
       {
