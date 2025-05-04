@@ -12,7 +12,15 @@
     }
   ],
   "compilerOptions": {
+    "baseUrl": ".",
     "allowJs": true,
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "paths": {
+      /** Injected Projects **/
+      "@zzz*": ["ZZZ", "ZZZ*"],
+      /** General **/
+      "@assets*": ["src/assets", "src/assets/*"],
+      "@components*": ["src/components", "src/components/*"]
+    }
   }
 }

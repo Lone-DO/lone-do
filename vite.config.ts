@@ -21,8 +21,8 @@ export default defineConfig({
     port: 8080
   },
   build: {
-    minify: true,
-    sourcemap: false,
+    minify: false,
+    sourcemap: true,
     // rest of build configuration
     rollupOptions: {
       input: {
@@ -37,10 +37,6 @@ export default defineConfig({
   },
   resolve: {
     alias: [
-      {
-        find: /^ZZZ/,
-        replacement: '/ZZZ'
-      },
       {
         find: /^@\//,
         replacement: '@/',
@@ -60,11 +56,40 @@ export default defineConfig({
            */
           return (await this.resolve(resolvedPath))?.id
         }
+      },
+      {
+        find: /^@zzz/,
+        replacement: '/ZZZ'
+      },
+      {
+        find: /^@assets\//,
+        replacement: '@/assets',
+        async customResolver(source, importer) {
+          let resolvedPath = ''
+          /** Modify Alias based on Nested Module */
+          if (importer?.includes('/ZZZ'))
+            resolvedPath = path.resolve(source.replace('@assets/', './ZZZ/src/assets'))
+          else resolvedPath = path.resolve(source.replace('@assets/', './src/assets'))
+          return (await this.resolve(resolvedPath))?.id
+        }
+      },
+      {
+        find: /^@components\//,
+        replacement: '@/components',
+        async customResolver(source, importer) {
+          let resolvedPath = ''
+          /** Modify Alias based on Nested Module */
+          if (importer?.includes('/ZZZ'))
+            resolvedPath = path.resolve(source.replace('@components/', './ZZZ/src/components'))
+          else resolvedPath = path.resolve(source.replace('@components/', './src/components'))
+          return (await this.resolve(resolvedPath))?.id
+        }
       }
     ]
   },
-  assetsInclude: ['**/assets/**/*.[svg|webp]'],
+  // assetsInclude: ['**/assets/**/*.[svg|webp]'],
   css: {
+    devSourcemap: true,
     preprocessorOptions: {
       scss: {
         additionalData: `
