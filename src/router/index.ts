@@ -1,6 +1,8 @@
-import { createRouter, createWebHashHistory, createWebHistory, type Router } from 'vue-router'
-import routes from './routes.ts'
-import ZZZ, { type iSelf } from 'ZZZ'
+import { createRouter, createWebHistory, type Router } from 'vue-router'
+// import stores from '@/stores'
+import defaultRoutes from './routes'
+/** Injected Projects */
+import ZZZ, { type iSelf } from '@zzz'
 
 export interface iRouter {
   instance: Router | null
@@ -9,31 +11,36 @@ export interface iRouter {
   build: () => void
 }
 
-const component = () =>
-  Promise.resolve({ name: 'mock-template', displayName: 'Mock Template', render: () => '' })
-
 function getPluginRoutes() {
   const plugins = [ZZZ]
-  return plugins.reduce((routes, plugin: iSelf) => {
+  const data = plugins.reduce((routes, plugin: iSelf) => {
     try {
       if (plugin.router?.options?.routes?.length) {
-        const filtered = plugin.router.options.routes.reduce((collection: [], route) => {
-          if (route?.meta?.internalOnly) return collection
-          return collection.concat({ ...route, component })
-        }, [])
+        const filtered = plugin.router.options.routes.reduce(
+          (collection: [], route: { meta: { internalOnly: false } }) => {
+            if (route?.meta?.internalOnly) return collection
+            return collection.concat({
+              ...route,
+              component: () => import('@/components/MockTemplate.vue')
+            })
+          },
+          []
+        )
         return routes.concat(filtered)
       }
-      if (plugin.router.load) return routes.concat(plugin.router.load())
+      if (plugin.router?.load) return routes.concat(plugin.router.load())
     } catch (error) {
       console.error(error)
       return routes
     }
   }, [])
+
+  return data
 }
 
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
-  routes: [...routes, ...getPluginRoutes()]
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [...defaultRoutes, ...getPluginRoutes()]
 })
 
 export default router
