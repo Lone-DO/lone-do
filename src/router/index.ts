@@ -1,34 +1,29 @@
-import { createRouter, createWebHistory, type Router } from 'vue-router'
-// import stores from '@/stores'
-import defaultRoutes from './routes'
-/** Injected Projects */
-import ZZZ, { type iSelf } from '@zzz'
-
-export interface iRouter {
-  instance: Router | null
-  load: () => [] | null
-  plugin: () => void
-  build: () => void
-}
+import { createRouter, createWebHistory } from 'vue-router'
+import defaultRoutes from './routes.ts'
+import ZZZ from '../../ZZZ/src/main.ts'
 
 function getPluginRoutes() {
   const plugins = [ZZZ]
-  const data = plugins.reduce((routes, plugin: iSelf) => {
+  const data = plugins.reduce((routes: never[], plugin: unknown) => {
     try {
-      if (plugin.router?.options?.routes?.length) {
-        const filtered = plugin.router.options.routes.reduce(
-          (collection: [], route: { meta: { internalOnly: false } }) => {
-            if (route?.meta?.internalOnly) return collection
-            return collection.concat({
-              ...route,
-              component: () => import('@/components/MockTemplate.vue')
-            })
-          },
-          []
-        )
+      /** @ts-expect-error - TODO: Find proper type for Routes with optional properties */
+      if (plugin?.router?.options?.routes?.length) {
+        /** @ts-expect-error - TODO: Find proper type for Routes with optional properties */
+        const { routes: pluginRoutes } = plugin.router.options
+        /** @ts-expect-error - TODO: Find proper type for Routes with optional properties */
+        const filtered = pluginRoutes.reduce((collection, route) => {
+          if (route?.meta?.internalOnly) return collection
+          collection.push({
+            ...route,
+            /** @ts-expect-error - TODO: Find proper type for Routes with optional properties */
+            path: `${plugin.baseUrl}${route.path}`,
+            component: () => import('@/components/MockTemplate.vue'),
+          })
+          return collection
+        }, [])
         return routes.concat(filtered)
       }
-      if (plugin.router?.load) return routes.concat(plugin.router.load())
+      return routes
     } catch (error) {
       console.error(error)
       return routes
@@ -40,7 +35,7 @@ function getPluginRoutes() {
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [...defaultRoutes, ...getPluginRoutes()]
+  routes: [...defaultRoutes, ...getPluginRoutes()],
 })
 
 export default router
