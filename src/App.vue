@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 </script>
 
 <template>
@@ -19,7 +22,7 @@ import HelloWorld from './components/HelloWorld.vue'
   </header>
 
   <RouterView />
-  <project-zzz />
+  <project-zzz :path="route.path" />
 </template>
 
 <style scoped>
