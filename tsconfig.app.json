@@ -10,7 +10,7 @@
     "paths": {
       "@/*": ["./src/*", "./ZZZ/src/*"],
       "@zzz": ["./ZZZ"],
-      "@zzz/*": ["./ZZZ/dist/*"]
+      "@zzz/*": ["./ZZZ/dist/*", "./ZZZ/src/*"]
     }
   }
 }
