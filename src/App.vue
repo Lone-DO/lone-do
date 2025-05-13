@@ -1,28 +1,20 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import { useRoute } from 'vue-router'
-
-const route = useRoute()
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/icons/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/zzz/movie">Movie</RouterLink>
-      </nav>
-    </div>
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
+      <RouterLink :to="{ name: 'projects' }">Projects</RouterLink>
+    </nav>
   </header>
-
-  <RouterView />
-  <project-zzz :path="route.path" />
+  <main>
+    <Suspense>
+      <RouterView />
+    </Suspense>
+  </main>
 </template>
 
 <style scoped>

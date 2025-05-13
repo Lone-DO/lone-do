@@ -1,3 +1,4 @@
+localStorage.setItem('VITE_PLUGIN', 'true')
 /** Extensions */
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
