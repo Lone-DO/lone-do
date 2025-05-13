@@ -2,7 +2,8 @@
 
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { p as zConfig } from '@zzz/config.js'
+import zzz from '@zzz/main.js'
+const { config: zConfig } = zzz;
 
 const route = useRoute()
 const router = useRouter()

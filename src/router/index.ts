@@ -1,20 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import defaultRoutes from './routes.ts'
-import { r as zRouteFactory } from '@zzz/routes.js'
-import { c as zConfig } from '@zzz/config.js'
+import zzz from '@zzz/main.js'
 
 function getPluginRoutes() {
-  const plugins = [[zConfig, zRouteFactory]]
+  const plugins = [zzz]
+  /** @ts-expect-error - TODO: Find proper types */
   const data = plugins.reduce((routes: never[], plugin: unknown[]) => {
-    const [config, factory] = plugin
+    /** @ts-expect-error - TODO: Find proper type for Routes with optional properties */
+    const { config, router } = plugin
 
     try {
-      const pluginRoutes = typeof factory === 'function' ? factory(true) : []
+      const pluginRoutes = Array.isArray(router?.options?.routes) ? router.options.routes : []
       if (pluginRoutes?.length) {
         /** @ts-expect-error - TODO: Find proper type for Routes with optional properties */
         const filtered = pluginRoutes.reduce((collection, route) => {
           if (route?.meta?.internalOnly) return collection
-          /** @ts-expect-error - TODO: Find proper type for Routes with optional properties */
           const path = route.meta?.preParsed ? route.path : `${config.baseUrl === '/' ? '' : config.baseUrl}${route.path}`
           collection.push({
             ...route,
@@ -37,6 +37,7 @@ function getPluginRoutes() {
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  /** @ts-expect-error - TODO: Find proper type for Routes with optional properties */
   routes: [...defaultRoutes, ...getPluginRoutes()],
 })
 
