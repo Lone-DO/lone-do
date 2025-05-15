@@ -1,3 +1,3 @@
 [submodule "project-zzz"]
 	path = project-zzz
-	url = git@github.com:Lone-DO/project-zzz.git
+	url = https://github.com/Lone-DO/project-zzz.git
