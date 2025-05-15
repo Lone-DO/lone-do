@@ -39,7 +39,7 @@ jobs:
         run: |
           git config --local user.name ${{ secrets.USERNAME_GITHUB }}
           git config --local user.email ${{ secrets.EMAIL }}
-          git config --local user.email ${{ secrets.CODEDEPLOY_ACCESS_KEY }}
+          git config --local user.password ${{ secrets.CODEDEPLOY_ACCESS_KEY }}
       - name: Install Submodules
         run: git submodule init && git submodule update
       - name: Install dependencies
