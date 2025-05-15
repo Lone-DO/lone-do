@@ -6,6 +6,6 @@ import Component from './App.vue'
 describe('App (Root)', () => {
   it('renders properly', () => {
     const wrapper = mount(Component)
-    expect(wrapper.html()).not.toBeTruthy()
+    expect(wrapper.html()).toBeTruthy()
   })
 })
