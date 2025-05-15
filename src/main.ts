@@ -1,17 +1,30 @@
+localStorage.setItem('VITE_PLUGIN', 'true')
+/** Extensions */
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
+/** Root/Host Component **/
 import App from './App.vue'
-import router from './router'
-import components from './components'
-
+/** Register component version to Global State */
+import def from '../package.json'
+const { name, version } = def
+/** Assets */
 import './assets/styles/main.scss'
+import components from './components'
+/** Factories */
 
-const app = createApp(App)
-
+import $router from './router'
+/** Setup */
+const app = createApp({ name, ...App })
+/** Vue Pinia */
 app.use(createPinia())
-app.use(router)
-// Bind components/ to global Vue components;
+/** Vue Router */
+app.use($router)
+/** Global Components Registry */
+/*** Local Globals  */
 app.use(components)
-
+/** Mount Application */
 app.mount('#app')
+
+if (process.env.NODE_ENV !== 'production') {
+  console.log(name, version, app)
+}

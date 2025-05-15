@@ -1,23 +1,44 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import defaultRoutes from './routes.ts'
+import zzz from '@zzz/main.js'
+
+function getPluginRoutes() {
+  const plugins = [zzz]
+  /** @ts-expect-error - TODO: Find proper types */
+  const data = plugins.reduce((routes: never[], plugin: unknown[]) => {
+    /** @ts-expect-error - TODO: Find proper type for Routes with optional properties */
+    const { config, router } = plugin
+
+    try {
+      const pluginRoutes = Array.isArray(router?.options?.routes) ? router.options.routes : []
+      if (pluginRoutes?.length) {
+        /** @ts-expect-error - TODO: Find proper type for Routes with optional properties */
+        const filtered = pluginRoutes.reduce((collection, route) => {
+          if (route?.meta?.internalOnly) return collection
+          const path = route.meta?.preParsed ? route.path : `${config.baseUrl === '/' ? '' : config.baseUrl}${route.path}`
+          collection.push({
+            ...route,
+            path,
+            component: () => import('@/components/MockTemplate.vue'),
+          })
+          return collection
+        }, [])
+        return routes.concat(filtered)
+      }
+      return routes
+    } catch (error) {
+      console.error(error)
+      return routes
+    }
+  }, [])
+
+  return data
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView,
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
-    },
-  ],
+  /** @ts-expect-error - TODO: Find proper type for Routes with optional properties */
+  routes: [...defaultRoutes, ...getPluginRoutes()],
 })
 
 export default router

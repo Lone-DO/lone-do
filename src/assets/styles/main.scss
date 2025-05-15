@@ -1,4 +1,4 @@
-@use '@/assets/styles/base.scss';
+@use './base.scss' as *;
 
 #app {
   max-width: 1280px;
@@ -28,7 +28,7 @@ a,
   }
 
   #app {
-    display: grid;
+    // display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
