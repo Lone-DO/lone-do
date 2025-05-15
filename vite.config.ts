@@ -27,7 +27,7 @@ export default defineConfig(({ mode }): UserConfig => {
       }),
       vueDevTools(),
       copy({
-        targets: [{ src: './ZZZ/dist/*', dest: './dist/ZZZ/dist' }],
+        targets: [{ src: './project-zzz/dist/*', dest: './dist/project-zzz/dist' }],
         verbose: true,
         hook: 'writeBundle',
       }),
@@ -41,7 +41,7 @@ export default defineConfig(({ mode }): UserConfig => {
           app: './index.html',
           portfolio: './src/main.ts',
         },
-        external: [/ZZZ/],
+        external: [/project-zzz/],
         output: {
           name: 'portfolio',
           entryFileNames: (chunk) => `${[chunk.name]}.js`,
@@ -57,8 +57,8 @@ export default defineConfig(({ mode }): UserConfig => {
             let resolvedPath = ''
             const isAdditionalData = ['@/assets/styles/mixins.scss', '@/assets/styles/colors.scss', '@/assets/styles/variables.scss'].includes(source)
             /** Modify Alias based on Nested Module */
-            if (importer?.includes('/ZZZ')) {
-              if (!isAdditionalData) resolvedPath = path.resolve(source.replace('@/', './ZZZ/src/'))
+            if (importer?.includes('/project-zzz')) {
+              if (!isAdditionalData) resolvedPath = path.resolve(source.replace('@/', './project-zzz/src/'))
             } else resolvedPath = path.resolve(source.replace('@/', './src/'))
             /** Return using Vite/RollupOptions resolve handler
              * https://rollupjs.org/plugin-development/#this-resolve
@@ -70,7 +70,7 @@ export default defineConfig(({ mode }): UserConfig => {
           find: /^@zzz\//,
           replacement: '@zzz/',
           async customResolver(source) {
-            const target = mode === 'production' ? '/ZZZ/dist/src/' : '/ZZZ/src/'
+            const target = mode === 'production' ? '/project-zzz/dist/src/' : '/project-zzz/src/'
             const resolvedPath = path.resolve(source.replace('@zzz/', target))
             return (await this.resolve(resolvedPath))?.id
           },
@@ -85,7 +85,7 @@ export default defineConfig(({ mode }): UserConfig => {
         },
       ],
     },
-    assetsInclude: ['**/assets/**/*.[svg|webp]', '**/ZZZ/assets/**/*.[svg|webp]', '**/ZZZ/dist/**/*'],
+    assetsInclude: ['**/assets/**/*.[svg|webp]', '**/project-zzz/assets/**/*.[svg|webp]', '**/project-zzz/dist/**/*'],
     css: {
       devSourcemap: true,
       preprocessorOptions: {

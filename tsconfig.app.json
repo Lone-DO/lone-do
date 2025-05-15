@@ -1,16 +1,16 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "ZZZ/**/*"],
-  "exclude": ["src/**/__tests__/*"],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "**project-zzz/**/*"],
+  "exclude": ["src/**/__tests__/*", "**/node_modules", "**project-*/interfaces", "**project-*/*config*", "**project-*/.*"],
   "compilerOptions": {
     "composite": true,
     "allowJs": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 
     "paths": {
-      "@/*": ["./src/*", "./ZZZ/src/*"],
-      "@zzz": ["./ZZZ"],
-      "@zzz/*": ["./ZZZ/dist/*", "./ZZZ/src/*"]
+      "@/*": ["./src/*", "./project-zzz/src/*"],
+      "@zzz": ["./project-zzz"],
+      "@zzz/*": ["./project-zzz/dist/*", "./project-zzz/src/*"]
     }
   }
 }
