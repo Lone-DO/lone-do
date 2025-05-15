@@ -25,4 +25,6 @@ app.use(components)
 /** Mount Application */
 app.mount('#app')
 
-console.log(name, version, app)
+if (process.env.NODE_ENV === 'development') {
+    console.log(name, version, app);
+}
