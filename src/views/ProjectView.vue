@@ -2,8 +2,6 @@
 
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import zzz from '@zzz/main.js'
-const { config: zConfig } = zzz;
 
 const route = useRoute()
 const router = useRouter()
@@ -12,8 +10,13 @@ function setProject(name: string) {
   else router.push({ name: 'projects' })
 }
 
+import ThreeD from './ThreeView.vue'
+import zzz from '@zzz/main.js'
+const { config: zConfig } = zzz;
+
 const projects = ref([
-  { name: 'zzz', url: zConfig.baseUrl, component: null }
+  { name: 'zzz', url: zConfig.baseUrl, component: null },
+  { name: '3d', url: '/three', component: ThreeD }
 ])
 const projectId = computed(() => Array.isArray(route?.params?.projectId) ? route.params.projectId[0] : String(route?.params?.projectId))
 const project = computed(() => projects.value.find((item) => item.name === projectId.value))
@@ -24,14 +27,28 @@ const project = computed(() => projects.value.find((item) => item.name === proje
   <Suspense>
     <section id='projects'>
       <template v-if="project">
-        <project-zzz v-if="projectId" />
-        <component v-else-if="project?.component" :is="project.component" :path="route.path" />
+        <project-zzz v-if="String(projectId).toLowerCase() === 'zzz'" />
+        <component v-else-if="project?.component" :is="{ ...project.component }" :path="route.path" />
       </template>
       <ul v-else>
-        <article>
-          <button @click="setProject('zzz')">Demo ZZZ</button>
-        </article>
+        <li>
+          <article>
+            <button @click="setProject('zzz')">Demo ZZZ</button>
+          </article>
+        </li>
+        <li>
+          <article>
+            <button @click="setProject('3d')">Demo Three.js</button>
+          </article>
+        </li>
       </ul>
     </section>
   </Suspense>
 </template>
+
+<style lang="scss" scoped>
+#projects {
+  height: 100%;
+  width: 100%;
+}
+</style>
