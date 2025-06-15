@@ -70,7 +70,7 @@ export default defineConfig(({ mode }): UserConfig => {
           find: /^@zzz\//,
           replacement: '@zzz/',
           async customResolver(source) {
-            const target = mode === 'production' ? '/project-zzz/dist/src/' : '/project-zzz/src/'
+            const target = mode === 'production' ? './project-zzz/dist/src/' : './project-zzz/src/'
             const resolvedPath = path.resolve(source.replace('@zzz/', target))
             return (await this.resolve(resolvedPath))?.id
           },
