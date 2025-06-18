@@ -1,3 +1,49 @@
+@use './colors' as *;
+@use './variables' as *;
+
+@mixin FlexBox($gap: 1rem, $align: center) {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: $gap;
+  align-items: $align;
+  @content;
+}
+@mixin DefaultPadding {
+  padding: 4px;
+}
+@mixin WindowAbsoluteCentered {
+  left: 0;
+  right: 0;
+  top: 20%;
+  width: fit-content;
+  position: absolute;
+  margin-inline: auto;
+}
+
+@mixin WindowBoxShadow {
+  padding: $WINDOWS_BOX_SHADOW_OFFSET;
+  $shadow:
+    inset -1px -1px 0px 0px #000,
+    inset 1px 1px 0px 0px $windowsClassicBGSecondary,
+    inset -2px -2px 0px 0px $windowsClassicBG,
+    inset 1px 1px 0px 1px #fff;
+  -webkit-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+@mixin WindowButtonBoxShadow {
+  padding: $WINDOWS_BOX_SHADOW_OFFSET;
+  $shadow:
+    inset -1px -1px 0px 0px #000,
+    inset 0px 0px 0px 1px #fff,
+    inset -2px -2px 0px 0px $windowsClassicBGSecondary,
+    inset 2px 2px 0px 0px #dfdfdf;
+  -webkit-box-shadow: $shadow;
+  box-shadow: $shadow;
+  border: none;
+}
+
 @mixin Mobile {
   @media (max-width: 720px) {
     @content;
