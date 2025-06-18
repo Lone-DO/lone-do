@@ -2,6 +2,10 @@
 
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { onErrorCaptured } from 'vue';
+onErrorCaptured((error, vm) => {
+  console.error(error, vm)
+})
 
 const route = useRoute()
 const router = useRouter()
@@ -10,7 +14,7 @@ function setProject(name: string) {
   else router.push({ name: 'projects' })
 }
 
-import ThreeD from './ThreeView.vue'
+import ThreeD from './3d/ThreeDView.vue'
 import zzz from '@zzz/main.js'
 const { config: zConfig } = zzz;
 
@@ -28,7 +32,7 @@ const project = computed(() => projects.value.find((item) => item.name === proje
     <section id='projects'>
       <template v-if="project">
         <project-zzz v-if="String(projectId).toLowerCase() === 'zzz'" />
-        <component v-else-if="project?.component" :is="{ ...project.component }" :path="route.path" />
+        <ThreeD v-else-if="String(projectId).toLowerCase() === '3d'" />
       </template>
       <ul v-else>
         <li>

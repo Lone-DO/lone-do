@@ -4,6 +4,8 @@ import { defineConfig, type UserConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import copy from 'rollup-plugin-copy'
+/** Plugins */
+import { templateCompilerOptions } from '@tresjs/core'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }): UserConfig => {
@@ -21,7 +23,10 @@ export default defineConfig(({ mode }): UserConfig => {
         template: {
           compilerOptions: {
             // treat all tags with a dash as custom elements
-            isCustomElement: (tag) => tag.includes('project-'),
+            isCustomElement: (tag) => {
+              if (tag.includes('project-')) return true
+              else return templateCompilerOptions.template.compilerOptions.isCustomElement(tag)
+            },
           },
         },
       }),
