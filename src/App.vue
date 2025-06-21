@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Windows97 from './views/windows97/WindowsMain.vue';
+import Windows97 from './views/windows/WindowsMain.vue'
 </script>
 
 <template>

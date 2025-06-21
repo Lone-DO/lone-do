@@ -1,7 +1,6 @@
 <script lang='ts' setup>
 import { defineProps, computed } from 'vue';
 import WindowsButton from './WindowsButton.vue';
-import { getParsedCommandLineOfConfigFile } from 'typescript';
 
 const props = defineProps({
   tooltip: { type: String, default: null },

@@ -23,25 +23,17 @@ const injectedStyles = computed(() => ({
 <style lang='scss' scoped>
 .windows-button {
   @include FlexBox;
+  @include HoverScaling;
   @include WindowButtonBoxShadow;
   min-width: var(--button-min-width);
   font-size: var(--button-font-size);
   padding: var(--button-padding);
 
-  transition: transform 100ms ease-in-out;
-
   &:not([disabled]) {
-    cursor: var(--button-cursor);
     background-color: $windowsClassicBG;
-
-    &:hover {
-      transform: scale(1.05);
-      outline: none;
-    }
   }
 
   &[disabled] {
-    cursor: not-allowed;
     background-color: $windowsClassicBGSecondary;
   }
 

@@ -1,3 +1,3 @@
 <template>
-  Desktop
+  <span>Inbox</span>
 </template>

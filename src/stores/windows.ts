@@ -1,4 +1,4 @@
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export interface iWindowVersion {
@@ -6,6 +6,16 @@ export interface iWindowVersion {
   name: string
   logoColored?: string
   value: string | number
+}
+
+export interface iApplication {
+  active: boolean
+  mini?: boolean
+  index?: number
+  logo: string
+  title: string
+  component: object
+  elementName?: string
 }
 
 export const versions: iWindowVersion[] = [
@@ -37,11 +47,35 @@ export const versions: iWindowVersion[] = [
   },
 ]
 export const useWindowStore = defineStore('windowStore', () => {
-  const isLoggedIn = ref(false)
+  /** General */
   const version = ref(versions[0])
-  const user = reactive({ name: null, email: null, picture: null })
+  /** Applications */
+  const applications = ref(<iApplication[]>[])
+  const minified = computed(() => applications.value.filter(({ mini = false }) => Boolean(mini)))
+  function updateApplication(app: iApplication | never, del?: boolean) {
+    if (app) {
+      if (del) {
+        applications.value = applications.value.filter(({ title }) => title !== app.title)
+      } else {
+        const index = applications.value.findIndex((item) => item.title === app?.title)
+        if (index >= 0) applications.value[index] = { ...app, active: false }
+        else applications.value.push({ ...app, active: false, index: applications.value.length })
+      }
+    }
+  }
 
+  function isAppActive(app: iApplication) {
+    const item = applications.value.find((item) => item.title === app.title)
+    return Boolean(item?.active)
+  }
+
+  /** User */
+  const isLoggedIn = ref(true)
+  const user = reactive({ name: null, email: null, picture: null })
+  const settings = reactive({ background: null, font: null, color: null, logo: '/images/windows/windows-logo-1992.svg' })
+  const hasUrlBackground = computed(() => String(settings.background).includes('http'))
   const login = () => (isLoggedIn.value = true)
   const logout = () => (isLoggedIn.value = false)
-  return { isLoggedIn, login, logout, user, version, versions }
+
+  return { applications, isAppActive, minified, settings, hasUrlBackground, updateApplication, isLoggedIn, login, logout, user, version, versions }
 })
