@@ -10,5 +10,8 @@
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["oxlint", "tresjs", "VITE"]
+  "cSpell.words": ["oxlint", "tresjs", "VITE"],
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
