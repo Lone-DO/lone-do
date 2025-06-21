@@ -1,17 +1,45 @@
 @use './colors' as *;
 @use './variables' as *;
 
-@mixin FlexBox($gap: 1rem, $align: center) {
-  display: flex;
-  flex-wrap: wrap;
-
-  gap: $gap;
-  align-items: $align;
-  @content;
-}
+/** General */
 @mixin DefaultPadding {
   padding: 4px;
 }
+@mixin FlexBox($gap: 1rem, $align: center, $wrap: unset) {
+  gap: $gap;
+  display: flex;
+  align-items: $align;
+  @if $wrap != unset {
+    flex-wrap: $wrap;
+  }
+  @content;
+}
+/** Events */
+@mixin DisableUserEvents {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+@mixin HoverScaling {
+  transition: transform 100ms ease-in-out;
+  &:not([disabled]) {
+    cursor: var(--button-cursor);
+
+    &:hover {
+      transform: scale(1.05);
+      outline: none;
+    }
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+  }
+}
+/** Global `Windows` Mixins **/
 @mixin WindowAbsoluteCentered {
   left: 0;
   right: 0;
@@ -21,6 +49,12 @@
   margin-inline: auto;
 }
 
+@mixin WindowsTaskbarBoxShadow {
+  box-shadow:
+    0px -2px 1px 0px white,
+    0px -2px 0 0px $windowsClassicBG;
+}
+
 @mixin WindowBoxShadow {
   padding: $WINDOWS_BOX_SHADOW_OFFSET;
   $shadow:
@@ -28,6 +62,34 @@
     inset 1px 1px 0px 0px $windowsClassicBGSecondary,
     inset -2px -2px 0px 0px $windowsClassicBG,
     inset 1px 1px 0px 1px #fff;
+  -webkit-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+@mixin WindowTaskBoxShadow {
+  padding: $WINDOWS_BOX_SHADOW_OFFSET;
+  $shadow:
+    inset -2px -2px 2px 0px #000,
+    inset 1px 1px 2px 1px #fff,
+    inset -3px -3px 0px 0px #c0c0c0,
+    inset 3px 3px 0px 0px #c0c0c0;
+  -webkit-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+@mixin WindowTaskActiveBoxShadow {
+  $shadow:
+    inset -1px -1px 1px 0px white,
+    inset 1px 2px 1px 0px #000,
+    inset 2px 3px 1px 0px $windowsClassicBGSecondary;
+  -webkit-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+@mixin WindowTrayBoxShadow {
+  $shadow:
+    inset -1px -1px 1px 1px white,
+    inset 2px 2px 1px 0px $windowsClassicBGSecondary;
   -webkit-box-shadow: $shadow;
   box-shadow: $shadow;
 }
@@ -43,6 +105,8 @@
   box-shadow: $shadow;
   border: none;
 }
+
+/** Media Queries **/
 
 @mixin Mobile {
   @media (max-width: 720px) {
