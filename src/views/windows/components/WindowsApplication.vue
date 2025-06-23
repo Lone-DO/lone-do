@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, defineProps, ref } from 'vue'
+import { computed, defineProps, ref, watch, useTemplateRef, onMounted } from 'vue'
 /** Stores */
 import { useWindowStore, type iApplication } from '@/stores/windows'
 const windowStore = useWindowStore()
@@ -26,16 +26,63 @@ function closeWindow() {
     isClosed.value = true
   }
 }
+
+const isMinified = ref(false)
+const setMini = () => (bool: boolean) => (isMinified.value = bool || false)
+const isFullscreen = ref(false)
+const setFullscreen = (bool: boolean) => (isFullscreen.value = bool || false)
+
+/** Dynamic Max Height */
+const paddingOffset = 6
+const maxHeight = ref('')
+const prevHeight = ref('')
+const header = useTemplateRef('header')
+// const selfElement = useTemplateRef('self')
+const headerHeight = ref(header?.value?.clientHeight || 0)
+const style = computed(() => ({ '--max-height--window': maxHeight.value }))
+const childProps = computed(() => ({ styles: { maxHeight: style.value['--max-height--window'] } }))
+const setHeight = () => {
+  headerHeight.value = header?.value?.clientHeight || 0
+  maxHeight.value = windowStore.getAvailableWindowHeight(headerHeight.value + paddingOffset)
+}
+onMounted(setHeight)
+watch(() => windowStore.height, setHeight)
+watch(
+  () => isFullscreen.value,
+  (bool) => {
+    if (bool) {
+      prevHeight.value = maxHeight.value
+      setHeight()
+    } else {
+      /** TODO: Use User Manual Sizing as priority during restore */
+      maxHeight.value = prevHeight.value
+    }
+  },
+)
+
+/** TODO: Lock in Height when window is NOT in fullscreen, currently is fully responsive */
 </script>
 
 <template>
-  <section v-if="!isClosed" class="windows-application" :disabled tabindex="-1">
-    <header class="windows-application_header">
+  <section
+    ref="self"
+    v-if="!isClosed"
+    :style
+    draggable
+    class="windows-application"
+    tabindex="-1"
+    :disabled="disabled || null"
+    :data-fullscreen="isFullscreen || null"
+  >
+    <header class="windows-application_header" ref="header">
       <h6 class="windows-application_title">
         <slot name="title">{{ title }}</slot>
       </h6>
       <aside>
         <slot name="actions"></slot>
+        <WindowsAction :disabled="isDisabled" @click="setMini">M</WindowsAction>
+        <WindowsAction v-if="isFullscreen" :disabled="isDisabled" @click="setFullscreen(false)">R</WindowsAction>
+        <WindowsAction v-else :disabled="isDisabled" @click="setFullscreen(true)">F</WindowsAction>
         <WindowsAction :disabled="isDisabled" @click="closeWindow">X</WindowsAction>
       </aside>
     </header>
@@ -44,7 +91,7 @@ function closeWindow() {
         <slot name="prefix" />
       </aside>
       <slot>
-        <component v-if="component" :is="typeof component === 'string' ? component : { ...component }" />
+        <component v-if="component" v-bind="childProps" :is="typeof component === 'string' ? component : { ...component }" />
       </slot>
       <aside v-if="$slots.affix" class="windows-application_affix">
         <slot name="affix" />
@@ -58,10 +105,21 @@ function closeWindow() {
   @include WindowBoxShadow;
   @include WindowAbsoluteCentered;
   overflow: hidden;
+  max-width: 100%;
+  max-height: var(--max-height--desktop);
   background-color: $windowsClassicBG;
+  box-shadow: 0px 0px 2px 2px $windowsClassicBG;
 
   @include Tablet {
     min-width: 300px;
+  }
+
+  &[data-fullscreen] {
+    min-height: var(--max-height--desktop);
+    min-width: 100%;
+  }
+  &:not([data-fullscreen]) {
+    min-height: fit-content;
   }
 
   &:not(:focus) {
@@ -74,7 +132,6 @@ function closeWindow() {
   header {
     color: #fff;
     background-color: darkblue;
-    margin-bottom: 1rem;
     padding: 2px;
 
     @include FlexBox {
@@ -99,6 +156,7 @@ function closeWindow() {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    max-height: var(--max-height--window);
   }
 }
 </style>

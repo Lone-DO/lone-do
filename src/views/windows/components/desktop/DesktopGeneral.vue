@@ -27,7 +27,7 @@ const apps = <iApplication[]>[
   },
   {
     logo: '',
-    title: 'The Microsoft Network',
+    title: 'Microsoft Network',
     component: () => import('../apps/AppNetwork.vue'),
   },
   {

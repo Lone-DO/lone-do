@@ -3,7 +3,7 @@
 import { useWindowStore } from '@/stores/windows'
 const windowStore = useWindowStore()
 /** Components */
-import WindowsApplication from './AppMain.vue'
+import WindowsApplication from '../WindowsApplication.vue'
 import WindowsAction from '@/views/windows/components/WindowsActionButton.vue'
 import WindowsButton from '@/views/windows/components/WindowsButton.vue'
 </script>

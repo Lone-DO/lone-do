@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useWindowStore } from '@/stores/windows'
 /** Components */
-import WindowsApplication from '@/views/windows/components/apps/AppMain.vue'
+import WindowsApplication from '@/views/windows/components/WindowsApplication.vue'
 import WindowsTaskBar from '@/views/windows/components/taskbar/TaskbarMain.vue'
 import DesktopGeneral from './DesktopGeneral.vue'
 import DesktopProjects from './DesktopProjects.vue'
@@ -23,13 +23,7 @@ const injectedStyles = computed(() => {
       <DesktopProjects />
     </section>
     <section v-if="windowStore.applications.length" id="windows-desktop_applications" ref="applications">
-      <WindowsApplication
-        v-for="(app, index) in windowStore.applications"
-        :app
-        :key="app.title + index"
-        :title="app.title"
-        :styles="{ zIndex: app.index }"
-      />
+      <WindowsApplication v-for="(app, index) in windowStore.applications" :app :key="app.title + index" :title="app.title" />
     </section>
   </main>
 </template>
