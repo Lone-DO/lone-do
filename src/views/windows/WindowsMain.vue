@@ -2,9 +2,13 @@
 import WindowsLogin from '@/views/windows/components/apps/AppLogin.vue'
 import WindowsDesktop from '@/views/windows/components/desktop/DesktopMain.vue'
 import { useWindowStore } from '@/stores/windows'
+import { computed } from 'vue'
 
 const windowStore = useWindowStore()
-const style = { '--windows-background-color': '#008080' }
+const style = computed(() => ({
+  ...windowStore.styles,
+  '--windows-background-color': '#008080',
+}))
 </script>
 
 <template>

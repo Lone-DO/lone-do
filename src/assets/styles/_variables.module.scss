@@ -1,0 +1,6 @@
+@import './variables';
+/** https://github.com/webpack-contrib/sass-loader/issues/951#issuecomment-1139555654 */
+:export {
+  WINDOWS_BOX_SHADOW_OFFSET: $FONT_WEIGHT;
+  TASKBAR_HEIGHT: $TASKBAR_HEIGHT;
+}

@@ -1,5 +1,6 @@
 import { computed, reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
+import { useResize } from '@/assets/composables/resize'
 
 export interface iWindowVersion {
   logo: string
@@ -49,6 +50,7 @@ export const versions: iWindowVersion[] = [
 export const useWindowStore = defineStore('windowStore', () => {
   /** General */
   const version = ref(versions[0])
+  const resize = useResize()
   /** Applications */
   const applications = ref(<iApplication[]>[])
   const minified = computed(() => applications.value.filter(({ mini = false }) => Boolean(mini)))
@@ -77,5 +79,19 @@ export const useWindowStore = defineStore('windowStore', () => {
   const login = () => (isLoggedIn.value = true)
   const logout = () => (isLoggedIn.value = false)
 
-  return { applications, isAppActive, minified, settings, hasUrlBackground, updateApplication, isLoggedIn, login, logout, user, version, versions }
+  return {
+    ...resize,
+    applications,
+    isAppActive,
+    minified,
+    settings,
+    hasUrlBackground,
+    updateApplication,
+    isLoggedIn,
+    login,
+    logout,
+    user,
+    version,
+    versions,
+  }
 })
