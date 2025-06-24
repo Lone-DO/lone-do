@@ -1,6 +1,8 @@
-import { computed, reactive, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useResize } from '@/assets/composables/resize'
+import { useWindowSettings } from './_settings'
+import { useWindowUser } from './_login'
 
 export interface iWindowVersion {
   logo: string
@@ -11,7 +13,7 @@ export interface iWindowVersion {
 
 export interface iApplication {
   active: boolean
-  mini?: boolean
+  mini: boolean
   index?: number
   logo: string
   title: string
@@ -60,8 +62,8 @@ export const useWindowStore = defineStore('windowStore', () => {
         applications.value = applications.value.filter(({ title }) => title !== app.title)
       } else {
         const index = applications.value.findIndex((item) => item.title === app?.title)
-        if (index >= 0) applications.value[index] = { ...app, active: false }
-        else applications.value.push({ ...app, active: false, index: applications.value.length })
+        if (index >= 0) applications.value[index] = { ...app, active: false, mini: false }
+        else applications.value.push({ ...app, active: false, mini: false, index: applications.value.length })
       }
     }
   }
@@ -71,26 +73,14 @@ export const useWindowStore = defineStore('windowStore', () => {
     return Boolean(item?.active)
   }
 
-  /** User */
-  const isLoggedIn = ref(true)
-  const user = reactive({ name: null, email: null, picture: null })
-  const settings = reactive({ background: null, font: null, color: null, logo: '/images/windows/windows-logo-1992.svg' })
-  const hasUrlBackground = computed(() => String(settings.background).includes('http'))
-  const login = () => (isLoggedIn.value = true)
-  const logout = () => (isLoggedIn.value = false)
-
   return {
     ...resize,
+    ...useWindowUser(),
+    ...useWindowSettings(),
     applications,
     isAppActive,
     minified,
-    settings,
-    hasUrlBackground,
     updateApplication,
-    isLoggedIn,
-    login,
-    logout,
-    user,
     version,
     versions,
   }
