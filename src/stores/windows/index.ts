@@ -12,8 +12,8 @@ export interface iWindowVersion {
 }
 
 export interface iApplication {
-  active: boolean
-  mini: boolean
+  active?: boolean
+  mini?: boolean
   index?: number
   logo: string
   title: string

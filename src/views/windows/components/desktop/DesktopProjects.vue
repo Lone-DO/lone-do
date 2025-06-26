@@ -1,30 +1,44 @@
 <script setup lang="ts">
-import { useWindowStore, type iApplication } from '@/stores/windows'
+import { useWindowStore, type iApplication } from '@/stores/windows/index'
 import DesktopItem from './DesktopItem.vue'
+import { onErrorCaptured, onMounted, ref, watch } from 'vue'
+import { useProjectStore, type iProject } from '@/stores/projects'
 const windowStore = useWindowStore()
+const projectStore = useProjectStore()
+await projectStore.init()
+const projects = ref(<iApplication[]>[])
 
-const projects = <iApplication[]>[]
+onErrorCaptured((err, vm) => {
+  console.error(err, vm)
+})
 
-await Promise.resolve(import('@zzz/main.js'))
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  .then(({ default: zzz }: any) => {
-    projects.push({
-      logo: zzz.config.logo,
-      title: zzz.config.name,
-      component: zzz.component,
-      elementName: zzz.elementName,
-    })
-    return zzz
-  })
-  .catch((err) => console.error(err))
+watch(
+  () => projectStore.projects.value,
+  (data) => {
+    projects.value = data.reduce(
+      (set, project) => {
+        return set.concat({
+          logo: project.config.logo,
+          title: project.config.name,
+          component: project.component,
+          elementName: project.config.elementName,
+        })
+      },
+      <iApplication[]>[],
+    )
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
-  <DesktopItem
-    v-for="(app, index) in projects"
-    :key="app.title + index"
-    v-bind="app"
-    @dblclick.stop="windowStore.updateApplication(app)"
-    @keydown.enter.stop="windowStore.updateApplication(app)"
-  />
+  <Suspense>
+    <DesktopItem
+      v-for="(app, index) in projects"
+      :key="app.title + index"
+      v-bind="app"
+      @dblclick.stop="windowStore.updateApplication(app)"
+      @keydown.enter.stop="windowStore.updateApplication(app)"
+    />
+  </Suspense>
 </template>
