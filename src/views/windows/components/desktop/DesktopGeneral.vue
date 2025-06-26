@@ -6,32 +6,32 @@ const windowStore = useWindowStore()
 
 const apps = <iApplication[]>[
   {
-    logo: '',
+    logo: '/images/windows/computer_explorer.svg',
     title: 'My Computer',
     component: () => import('../apps/AppComputer.vue'),
   },
   {
-    logo: '',
+    logo: '/images/windows/network_neighborhood.svg',
     title: 'Network Neighborhood',
     component: () => import('../apps/AppNetworkNeighborhood.vue'),
   },
   {
-    logo: '',
+    logo: '/images/windows/mailbox_world.svg',
     title: 'Inbox',
     component: () => import('../apps/AppInbox.vue'),
   },
   {
-    logo: '',
+    logo: '/images/windows/recycle_bin_empty.svg',
     title: 'Recycle Bin',
     component: () => import('../apps/AppRecycle.vue'),
   },
   {
-    logo: '',
+    logo: '/images/windows/msn_cool.svg',
     title: 'Microsoft Network',
     component: () => import('../apps/AppNetwork.vue'),
   },
   {
-    logo: '',
+    logo: '/images/windows/briefcase.svg',
     title: 'My Briefcase',
     component: () => import('../apps/AppBriefcase.vue'),
   },

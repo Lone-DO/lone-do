@@ -43,11 +43,14 @@ defineProps({
   }
 
   img {
+    width: auto;
+    height: 100%;
     max-height: 3rem;
     aspect-ratio: auto;
   }
 
   span {
+    text-align: center;
     font-size: 0.5rem;
   }
 }

@@ -10,13 +10,14 @@ import DesktopProjects from './DesktopProjects.vue'
 const windowStore = useWindowStore()
 const injectedStyles = computed(() => {
   return {
-    '--desktop-image': windowStore.settings?.background || '008080',
+    '--desktop-background': windowStore.settings?.background || '008080',
+    '--desktop-text-color': windowStore.settings?.color,
   }
 })
 </script>
 
 <template>
-  <main id="windows-desktop" :style="injectedStyles" :data-image="windowStore.hasUrlBackground">
+  <main id="windows-desktop" :style="injectedStyles" :data-bg-image="windowStore.hasUrlBackground || null">
     <windows-task-bar />
     <section id="windows-desktop_container">
       <DesktopGeneral />
@@ -52,7 +53,7 @@ const injectedStyles = computed(() => {
     gap: 4px;
     display: flex;
     flex-wrap: wrap;
-    // overflow: hidden;
+    color: var(--desktop-text-color);
   }
 }
 </style>
