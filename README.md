@@ -77,71 +77,68 @@
 
 <h3 align="left">Current Learning</h3>
 <ul>
-    <li>Deepening my knowledge in Machine Learning and AI.</li>
-    <li>Exploring advanced React.js, Next.js patterns and state management techniques.</li>
-    <li>Improving my skills in cloud computing with AWS and Azure.</li>
+    <li>Deepening my knowledge in Game Development via Java</li>
+    <li>Exploring advanced JavaScript, Nuxt.js, and SQL-lite fundamentals</li>
 </ul>
 
 <br />
 
 ---
 
-<div>
-    <h2 align="center" style="color: #6D9EEF">📊 GITHUB STATISTICS 📊</h2>
-    <table width="100%" style="background: linear-gradient(135deg, #000000 0%, #1A1B27 50%, #6D9EEF 100%)">
-        <tr>
-            <td width="50%">
-                <h3 align='center' style="color: #6D9EEF">Language Stats</h3>
-                <p align='center'>
-                   <img src="https://github-readme-stats-fast.vercel.app/api/top-langs/?username=lone-do&layout=compact&theme=tokyonight" alt="" />
-                </p>
-            </td>
-            <td width="50%">
-                <h3 align="center" style="color: #6D9EEF">
-                  <strong>Sᴛʀᴇᴀᴋ Sᴛᴀᴛs</strong>
-                </h3>
-                <p align="center">
-                  <a href="https://github.com/lone-do">
+<table width="100%" style="background: linear-gradient(135deg, #000000 0%, #1A1B27 50%, #6D9EEF 100%)">
+    <th colspan='2'><h2 align="center" style="color: #6D9EEF">📊 GITHUB STATISTICS 📊</h2></th>
+    <tr>
+        <td width="50%">
+            <h3 align='center' style="color: #6D9EEF">Language Stats</h3>
+            <p align='center'>
+               <img src="https://github-readme-stats-fast.vercel.app/api/top-langs/?username=lone-do&layout=compact&theme=tokyonight" alt="" />
+            </p>
+        </td>
+        <td width="50%">
+            <h3 align="center" style="color: #6D9EEF">
+              <strong>Sᴛʀᴇᴀᴋ Sᴛᴀᴛs</strong>
+            </h3>
+            <p align="center">
+              <a href="https://github.com/lone-do">
+                <img
+                  src="https://github-readme-stats-fast.vercel.app/api/streak?username=lone-do&theme=tokyonight&count_private=true"
+                  alt="My GitHub streak stats"
+                />
+              </a>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td colspan='2'>
+            <h3 align="center" style="color: #6D9EEF">
+                <strong>Gɪᴛʜᴜʙ Sᴛᴀᴛs</strong>
+            </h3>
+            <p align="center">
+                <a href="https://github.com/lone-do">
                     <img
-                      src="https://github-readme-stats-fast.vercel.app/api/streak?username=lone-do&theme=tokyonight&count_private=true"
-                      alt="My GitHub streak stats"
+                    align="center"
+                    src="https://github-readme-stats-fast.vercel.app/api?username=lone-do&show_icons=true&theme=tokyonight"
+                    alt="GitHub Stats"
                     />
-                  </a>
-                </p>
-            </td>
-        </tr>
-        <tr>
-            <td colspan='2'>
-                <h3 align="center" style="color: #6D9EEF">
-                    <strong>Gɪᴛʜᴜʙ Sᴛᴀᴛs</strong>
-                </h3>
-                <p align="center">
-                    <a href="https://github.com/lone-do">
-                        <img
+                </a>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <h3 align="center" style="color: #6D9EEF">
+              <strong>Latest Projects</strong>
+            </h3>
+            <p align="center">
+                <a href="https://github.com/lone-do/lone-do.github.io">
+                    <img
                         align="center"
-                        src="https://github-readme-stats-fast.vercel.app/api?username=lone-do&show_icons=true&theme=tokyonight"
-                        alt="GitHub Stats"
-                        />
-                    </a>
-                </p>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <h3 align="center" style="color: #6D9EEF">
-                  <strong>Latest Projects</strong>
-                </h3>
-                <p align="center">
-                    <a href="https://github.com/lone-do/lone-do.github.io">
-                        <img
-                            align="center"
-                            width="470"
-                            src="https://github-readme-stats-fast.vercel.app/api/pin/?username=LONE-DO&repo=LONE-DO.github.io&theme=tokyonight"
-                            alt="Latest Project"
-                        />
-                  </a>
-                </p>
-            </td>
-        </tr>
-  </table>
-</div>
+                        width="470"
+                        src="https://github-readme-stats-fast.vercel.app/api/pin/?username=LONE-DO&repo=LONE-DO.github.io&theme=tokyonight"
+                        alt="Latest Project"
+                    />
+              </a>
+            </p>
+        </td>
+    </tr>
+</table>
